@@ -1,9 +1,13 @@
-var express = require('express');
-var app = express();
+var express = require('express')
+var app = express()
+var moment = require('moment')
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+
+app.use('/public', express.static(__dirname + '/public'))
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname +'/public/index.html')
+})
 
 app.get('/hello-json', function (req, res) {
   res.json({
@@ -19,10 +23,10 @@ app.get('/hello/:name',  (req, res) => {
 })
 
 app.get('/now', (req, res) => {
-  var now = Date.now()
-  console.log(now)
-  res.json({now: now})
+  var now = moment()
+  res.json({now: now.toISOString()})
 })
+
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
